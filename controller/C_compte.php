@@ -1,18 +1,21 @@
 <?php
+    namespace controller;
+    include_once '../config/autoload.php';
+    //require_once '../model/M_client.php';
+    //require_once '../model/M_compte.php';
 
-    require_once '../model/M_client.php';
-    require_once '../model/M_compte.php';
 
     extract($_POST);
 
-    $mat = codeAleatoire(8);
-    $numero = codeAleatoire(8);
+    $db = new \model\DB();
+    $mat = $db->codeAleatoire(8);
+    $numero =$db->codeAleatoire(8);
     $solde = 0;
     $rib = 1;
     $dateOuve = getDateNow();
 
-    $clientS = new Client();
-    $compteC = new Compte();
+    $clientS = new \model\Client();
+    $compteC = new \model\Compte();
     
 
     if($choix_client == "nouveau"){
@@ -33,7 +36,7 @@
                 $typeCompte = 2;
                 $compte = $compteC->addCompteCourant($numero,$mat,$rib,$solde,$dateOuve,$agios,$typeCompte);
                 var_dump($compte);
-                header('location:../view/V_accueil.php?ok=1');
+                header("location:../view/V_accueil.php?ok=$compte");
             }else{
                 $client = $clientS->addClientS($mat,$cni,$nom,$prenom,$sexe,$datenaiss,$tel,$adr,$email);
                 var_dump($client);
@@ -43,7 +46,7 @@
                 $compte = $compteC->addCompteBloque($numero,$mat,$rib,$solde,$dateOuve,$fraisOuv,$remuneration,$date_debut,$date_fin,$typeCompte);
 
                 var_dump($compte);
-                header('location:../view/V_accueil.php?ok=1');
+                header("location:../view/V_accueil.php?ok=$compte");
             }
 
         }else{
@@ -52,13 +55,14 @@
                 $fraisOuv = 25000;
                 $remuneration = 10000;
                 $typeCompte = 1;
-                $compte = $clientS->addSimpleEntreprise($numero,$id_entreprise,$rib,$solde,$dateOuve,$fraisOuv,$remuneration,$typeCompte);
-                header('location:../view/V_accueil.php?ok=1');
+
+                $compte = $compteC->addSimpleEntreprise($numero,$id_entreprise,$rib,$solde,$dateOuve,$fraisOuv,$remuneration,$typeCompte);
+                header("location:../view/V_accueil.php?ok=$compte");
             }else{
                 $fraisOuv = 20000;
                 $remuneration = 7500;
                 $typeCompte = 3;
-                $compte = $clientS-> addBloqueEntreprise($numero,$id_entreprise,$rib,$solde,$dateOuve,$fraisOuv,$remuneration,$date_debut,$date_fin,$typeCompte);
+                $compte = $compteC-> addBloqueEntreprise($numero,$id_entreprise,$rib,$solde,$dateOuve,$fraisOuv,$remuneration,$date_debut,$date_fin,$typeCompte);
 
             }
         }
@@ -66,8 +70,8 @@
 
     function getDateNow()
     {
-        $tz_object = new DateTimeZone('UTC');
-        $datetime = new DateTime();
+        $tz_object = new \DateTimeZone('UTC');
+        $datetime = new \DateTime();
         $datetime->setTimezone($tz_object);
         return $datetime->format('Y\-m\-d');
     }

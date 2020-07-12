@@ -1,10 +1,14 @@
 <?php
-    require_once 'M_db.php';
+    namespace model;
+
+    //require_once 'M_db.php';
+    
     class Client{
         private $db;
         public function __construct()
         {
-            $this->db = getConnexion();
+             $DB = new DB();
+             $this->db = $DB->getConnexion();
         }
 
         public function addClientS($matricule,$cni,$nom,$prenom,$sexe,$datenaiss,$tel,$adresse,$email){
@@ -27,7 +31,7 @@
         ,'$email_entreprise',null,null,$budget_entreprise,'$adr_entreprise')";
         
 
-        $db->exec($sql);
+        $this->db->exec($sql);
         return  $this->db->lastInsertId();
     }
 

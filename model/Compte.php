@@ -1,12 +1,13 @@
 <?php
-
-    require_once 'M_db.php';
+    namespace model;
+    //require_once 'M_db.php';
 
     class Compte{
         private $db;
         public function __construct()
         {
-            $this->db = getConnexion();
+            $DB = new DB();
+             $this->db = $DB->getConnexion();
         }
 
         public function addCompte($numero,$matricule,$rib,$solde,$dateOuve,$fraisOuv,$remuneration,$typeCompte){

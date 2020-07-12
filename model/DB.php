@@ -1,6 +1,10 @@
 <?php
+    namespace model;
+    
+class DB{
 
-    function getConnexion()
+
+    public function getConnexion()
     {
         $host = 'localhost';
         $user = 'root';
@@ -9,15 +13,15 @@
         $dsn = "mysql:host=$host;dbname=$dbname";
 
         try {
-            $mydb = new PDO($dsn,$user,$password);
-            $mydb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $ex) {
+            $mydb = new \PDO($dsn,$user,$password);
+            $mydb->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $ex) {
             die('Erreur : '.$ex->getMessage());
         }
         return $mydb;
     }
 
-    function codeAleatoire($car)
+   public  function codeAleatoire($car)
     {
         $string = "";
         $chaine = "2643789ABDCEFGHJKMNPRTUVW";
@@ -29,7 +33,7 @@
         return $string;
     }
 
-    function cleRip()
+    public function cleRip()
     {
         $string = "";
         $chaine = "012643789";
@@ -40,4 +44,17 @@
         }
         return $string;
     }
+
+
+
+
+
+
+
+
+
+
+
+}
+    
 ?>
