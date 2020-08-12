@@ -169,7 +169,7 @@
                                         <select name="sexe" id="sexe" class="" onblur="testChamps(this)" >
                                             <option value="">----------------</option>
                                             <option value="masculin">Masculin</option>
-                                            <option value="masculin">Feminin</option>
+                                            <option value="feminin">Feminin</option>
                                         </select>
                                     </div>
                                     <div class="form-group flex-row-between">
