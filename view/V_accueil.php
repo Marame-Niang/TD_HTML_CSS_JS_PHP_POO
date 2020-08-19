@@ -27,7 +27,7 @@
                     <a href="#"><img src="../public/img/user.jpeg" alt="logo banque du peuple" class="image"/></a>
                 </div>
                 <div class="plus-grand">
-                    <p>Moussa DIENE</p>
+                    <p>Marame Niang</p>
                     <p>Fonction : Responsable</p>
                     <p>Agence : AZER1231</p>
                 </div>

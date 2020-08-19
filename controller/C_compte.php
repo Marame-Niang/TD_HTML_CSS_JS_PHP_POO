@@ -32,6 +32,8 @@
                 header("location:../view/V_accueil.php?ok=$compte");
             }elseif($choixcompte == "courant"){
                 $client = $clientS->addClientC($mat,$cni,$nom,$prenom,$sexe,$datenaiss,$tel,$adr,$email,$raison_sociale,$salaire,$nom_employeur,$adr_employeur);
+                // var_dump($client);
+                // die();
                 $agios = 10000;
                 $typeCompte = 2;
                 $compte = $compteC->addCompteCourant($numero,$mat,$rib,$solde,$dateOuve,$agios,$typeCompte);
