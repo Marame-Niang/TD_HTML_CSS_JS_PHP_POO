@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mer. 19 août 2020 à 14:37
+-- Généré le : jeu. 20 août 2020 à 14:05
 -- Version du serveur :  10.4.13-MariaDB
 -- Version de PHP : 7.4.8
 
@@ -70,6 +70,7 @@ CREATE TABLE `agence` (
 
 CREATE TABLE `compte` (
   `numero` varchar(11) NOT NULL,
+  `id_entreprise` int(11) UNSIGNED DEFAULT NULL,
   `mat` varchar(11) DEFAULT NULL,
   `rib` int(3) NOT NULL,
   `solde` double(10,5) NOT NULL,
@@ -88,13 +89,15 @@ CREATE TABLE `compte` (
 -- Déchargement des données de la table `compte`
 --
 
-INSERT INTO `compte` (`numero`, `mat`, `rib`, `solde`, `dateOuverture`, `nomEmpl`, `telEmpl`, `agios`, `fraisOuverture`, `remuneration`, `dateDebut`, `dateFin`, `typeCompte`) VALUES
-('3B9JN9EP', 'CMRJAA6E', 1, 0.00000, '2020-08-18', NULL, NULL, NULL, 25000.00000, 10000.00000, NULL, NULL, 1),
-('BAUHBKN2', 'G8VNPWUH', 1, 0.00000, '2020-08-19', NULL, NULL, NULL, 25000.00000, 10000.00000, '2020-08-19', '2021-08-19', 3),
-('MM3DCR7B', 'CMRJAA6E', 1, 0.00000, '2020-08-18', NULL, NULL, NULL, 25000.00000, 10000.00000, NULL, NULL, 1),
-('NKFR8JBN', '3BERE2M2', 1, 0.00000, '2020-08-19', NULL, NULL, 10000.00000, NULL, NULL, NULL, NULL, 2),
-('P6887HJ9', 'VGP9PT6G', 1, 0.00000, '2020-08-19', NULL, NULL, NULL, 25000.00000, 10000.00000, NULL, NULL, 1),
-('PVWUR4GH', 'WJBKHJ4C', 1, 0.00000, '2020-08-19', NULL, NULL, 10000.00000, NULL, NULL, NULL, NULL, 2);
+INSERT INTO `compte` (`numero`, `id_entreprise`, `mat`, `rib`, `solde`, `dateOuverture`, `nomEmpl`, `telEmpl`, `agios`, `fraisOuverture`, `remuneration`, `dateDebut`, `dateFin`, `typeCompte`) VALUES
+('3B9JN9EP', 0, 'CMRJAA6E', 1, 0.00000, '2020-08-18', NULL, NULL, NULL, 25000.00000, 10000.00000, NULL, NULL, 1),
+('BAUHBKN2', 0, 'G8VNPWUH', 1, 0.00000, '2020-08-19', NULL, NULL, NULL, 25000.00000, 10000.00000, '2020-08-19', '2021-08-19', 3),
+('CT87AGDP', 3, NULL, 1, 0.00000, '2020-08-20', NULL, NULL, NULL, 20000.00000, 7500.00000, '2020-08-20', '2021-08-20', 3),
+('K3T782HA', 2, NULL, 1, 0.00000, '2020-08-20', NULL, NULL, NULL, 25000.00000, 10000.00000, NULL, NULL, 1),
+('MM3DCR7B', 0, 'CMRJAA6E', 1, 0.00000, '2020-08-18', NULL, NULL, NULL, 25000.00000, 10000.00000, NULL, NULL, 1),
+('NKFR8JBN', 0, '3BERE2M2', 1, 0.00000, '2020-08-19', NULL, NULL, 10000.00000, NULL, NULL, NULL, NULL, 2),
+('P6887HJ9', 0, 'VGP9PT6G', 1, 0.00000, '2020-08-19', NULL, NULL, NULL, 25000.00000, 10000.00000, NULL, NULL, 1),
+('PVWUR4GH', 0, 'WJBKHJ4C', 1, 0.00000, '2020-08-19', NULL, NULL, 10000.00000, NULL, NULL, NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -107,10 +110,20 @@ CREATE TABLE `entreprise` (
   `nom` varchar(20) NOT NULL,
   `tel` varchar(20) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
+  `budget` varchar(50) NOT NULL,
   `login` varchar(20) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
-  `adrEntreprise` int(11) UNSIGNED NOT NULL
+  `adrEntreprise` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `entreprise`
+--
+
+INSERT INTO `entreprise` (`id`, `nom`, `tel`, `email`, `budget`, `login`, `password`, `adrEntreprise`) VALUES
+(1, 'Auchan', '775655657', 'nma@gmail.com', '80000000', NULL, NULL, 'Thiaroye'),
+(2, 'voile', '7812267389', 'voulou@gmail.com', '900003', NULL, NULL, 'Mboro'),
+(3, 'saveur asie', '760974634', 'asssii@gmail.com', '6576465', NULL, NULL, 'Louga');
 
 -- --------------------------------------------------------
 
@@ -284,14 +297,14 @@ ALTER TABLE `agence`
 ALTER TABLE `compte`
   ADD PRIMARY KEY (`numero`),
   ADD KEY `numAgence` (`mat`),
-  ADD KEY `typeCompte` (`typeCompte`);
+  ADD KEY `typeCompte` (`typeCompte`),
+  ADD KEY `id_entreprise` (`id_entreprise`);
 
 --
 -- Index pour la table `entreprise`
 --
 ALTER TABLE `entreprise`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `adrEntreprise` (`adrEntreprise`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `etat`
@@ -368,7 +381,7 @@ ALTER TABLE `affecter`
 -- AUTO_INCREMENT pour la table `entreprise`
 --
 ALTER TABLE `entreprise`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `etat`
@@ -411,58 +424,6 @@ ALTER TABLE `typeoperation`
 --
 ALTER TABLE `userrole`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `affecter`
---
-ALTER TABLE `affecter`
-  ADD CONSTRAINT `affecter_ibfk_1` FOREIGN KEY (`mat`) REFERENCES `personne` (`matricule`),
-  ADD CONSTRAINT `affecter_ibfk_2` FOREIGN KEY (`numAgence`) REFERENCES `agence` (`numero`);
-
---
--- Contraintes pour la table `agence`
---
-ALTER TABLE `agence`
-  ADD CONSTRAINT `agence_ibfk_1` FOREIGN KEY (`adrAgence`) REFERENCES `adresse` (`id`);
-
---
--- Contraintes pour la table `compte`
---
-ALTER TABLE `compte`
-  ADD CONSTRAINT `compte_ibfk_1` FOREIGN KEY (`mat`) REFERENCES `personne` (`matricule`),
-  ADD CONSTRAINT `compte_ibfk_2` FOREIGN KEY (`typeCompte`) REFERENCES `typecompte` (`id`);
-
---
--- Contraintes pour la table `entreprise`
---
-ALTER TABLE `entreprise`
-  ADD CONSTRAINT `entreprise_ibfk_1` FOREIGN KEY (`adrEntreprise`) REFERENCES `adresse` (`id`);
-
---
--- Contraintes pour la table `etatcompte`
---
-ALTER TABLE `etatcompte`
-  ADD CONSTRAINT `etatcompte_ibfk_1` FOREIGN KEY (`numcompte`) REFERENCES `compte` (`numero`),
-  ADD CONSTRAINT `etatcompte_ibfk_2` FOREIGN KEY (`etatcompte`) REFERENCES `etat` (`id`);
-
---
--- Contraintes pour la table `operation`
---
-ALTER TABLE `operation`
-  ADD CONSTRAINT `operation_ibfk_1` FOREIGN KEY (`matEmpl`) REFERENCES `personne` (`matricule`),
-  ADD CONSTRAINT `operation_ibfk_2` FOREIGN KEY (`numcompte`) REFERENCES `compte` (`numero`),
-  ADD CONSTRAINT `operation_ibfk_3` FOREIGN KEY (`typeOperation`) REFERENCES `typeoperation` (`id`);
-
---
--- Contraintes pour la table `userrole`
---
-ALTER TABLE `userrole`
-  ADD CONSTRAINT `userrole_ibfk_1` FOREIGN KEY (`mat`) REFERENCES `personne` (`matricule`),
-  ADD CONSTRAINT `userrole_ibfk_2` FOREIGN KEY (`idProfil`) REFERENCES `profil` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -28,7 +28,7 @@
     public function addEntreprise($nom_entreprise,$tel_entreprise,$email_entreprise,$budget_entreprise,$adr_entreprise){
         $budget_entreprise = floatval($budget_entreprise);
         $sql = "INSERT INTO entreprise VALUES(null,'$nom_entreprise','$tel_entreprise'
-        ,'$email_entreprise',null,null,$budget_entreprise,'$adr_entreprise')";
+        ,'$email_entreprise',$budget_entreprise,null,null,'$adr_entreprise')";
         
 
         $this->db->exec($sql);
